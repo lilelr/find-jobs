@@ -8,5 +8,3 @@ add_subdirectory(greedy)
 set(SOURCE_FILES main.cpp)
 add_executable(main ${SOURCE_FILES})
 
-set(main1_SRCS main1.cpp)
-add_executable(main1 ${main1_SRCS})
