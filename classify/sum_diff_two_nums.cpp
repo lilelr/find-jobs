@@ -65,7 +65,7 @@ int main() {
             nums[i] = nums[i+1]-nums[i];
             dif_min = min(dif_min,nums[i]);
         }
-        if(dif_min == 0){ // 类1 如何差为0，说明有数相等
+        if(dif_min == 0){ // 类1 如果差为0，说明有数相等
             int count = 0;
             bool flag = false;
 

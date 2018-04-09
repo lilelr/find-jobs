@@ -11,7 +11,7 @@
 常用变量,当前位置 cur，pos,
  输入数组 nums，input
  临时变量
-      buffer cache
+      buffer cache status
  布尔值 flag, found,统一初始化为false
  范围：start end, low, high
  目标值 des, target
