@@ -1,3 +1,7 @@
+//
+// Created by YuXiao on 4/13/18.
+//
+
 
 #include <string>
 #include <iostream>
@@ -8,6 +12,21 @@
 using namespace std;
 
 typedef long long LL;
+//
+
+//6
+//45 12 45 32 5 6
+//3
+//3 2 1
+//1
+//1
+//2
+//1 1
+//4
+//1 1 1 1
+//4
+//1 1 2 2
+
 /** 请完成下面这个函数，实现题目要求的功能 **/
 /** 当然，你也可以不按照这个模板来作答，完全按照自己的想法来 ^-^  **/
 int calculate(int cash00, int rows, int cols, int **entryfees, int **prices) {
