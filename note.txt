@@ -51,3 +51,16 @@
 7 vector
  vector<string> getGray(int n) {
      if(n==0) {return vector<string>(1,"0");}
+
+8
+ 判断一个数是不是质数
+bool is_zhi(int n){
+    bool res = true;
+    for(int i=2;i*i<=n;i++){
+        if(n%i ==0){
+            res = false;
+            return res;
+        }
+    }
+    return res;
+}

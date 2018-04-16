@@ -102,7 +102,7 @@ int main() {
         LL cur = 2 << (b-1);
         while (n > cur) {
             vector<char> cache;
-             bit_str2(n,cache);
+            bit_str2(n,cache);
             int t = cache.size();
             for(int i=0;i<cache.size();i++){
                 cout<<cache[i]<<endl;
