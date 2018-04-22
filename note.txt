@@ -64,3 +64,62 @@ bool is_zhi(int n){
     }
     return res;
 }
+
+9
+  动态规划 完全背包问题，求方法的种数
+  如 1
+     3 5     构造总价值 为5 的硬币组合 有多少种方法
+     1 2 5   3种硬币，每种硬币的价值
+
+     1
+     2 3
+     1 2   （1，1，1） （1，2） 2种
+
+#include <string>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <cmath>
+
+using namespace std;
+
+typedef long long LL;
+
+const int FIN = 100000007;
+
+int main() {
+    int t;
+    cin >> t;
+    int n, k;
+    while (t--) {
+        cin >> n >> k;
+        vector<int> coins(n + 1);
+        vector<vector<int>> dp(n + 1);
+        for (int i = 0; i < n + 1; i++) {
+            dp[i] = vector<int>(k + 1, 0);
+        }
+        for (int i = 1; i <= n; i++) {
+            cin >> coins[i];
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= k; j++) {
+                if(j<coins[i]){
+                  //注意当j<coins[i]时，当前第i个币种不构成新方法，所以结果由前i-1种币值构成  dp[i][j] = dp[i-1][j]%FIN;
+                } else{
+                 dp方程   dp[i][j] = dp[i - 1][j] % FIN + dp[i][j - coins[i]] % FIN;
+                }
+//                cout<<"i, j"<<i<<" "<<j<<" "<<dp[i][j]<<endl;
+            }
+        }
+
+        int res = dp[n][k] % FIN;
+        cout << res << endl;
+
+
+    }
+
+    return 0;
+
+}

@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 add_subdirectory(hash)
 add_subdirectory(greedy)
 add_subdirectory(bit)
+add_subdirectory(zhao_shang_test)
 set(SOURCE_FILES main.cpp)
 add_executable(main ${SOURCE_FILES})
 
