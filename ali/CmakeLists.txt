@@ -1,0 +1,11 @@
+
+set(CMAKE_CXX_STANDARD 11)
+
+set(ali-main1-SRCS ali_main1.cpp)
+add_executable(ali-main1 ${ali-main1-SRCS})
+
+set(ali-main2-SRCS ali_main2.cpp)
+add_executable(ali_main2 ${ali-main2-SRCS})
+
+set(ali-main3-SRCS ali_main3.cpp)
+add_executable(ali_main3 ${ali-main3-SRCS})

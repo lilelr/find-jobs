@@ -3,10 +3,10 @@
 
 using namespace std;
 
-bool is_zhi(int n){
+bool is_zhi(int n) {
     bool res = true;
-    for(int i=2;i*i<=n;i++){
-        if(n%i ==0){
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
             res = false;
             return res;
         }
@@ -16,25 +16,60 @@ bool is_zhi(int n){
 
 int main() {
 
-    int n;
-    cin>>n;
-    int cnt=0;
-    vector<int> visited(n+1,0);
-    for(int i=2;i<=n;i++){
-        if(visited[i] ==1){
-            continue;
+    int N;
+    cin >> N;
+    int n, m;
+    while (N--) {
+        cin >> n >> m;
+        vector<int> pos;
+        int tmp;
+        for (int i = 0; i < m; i++) {
+            cin >> tmp;
+            pos.push_back(tmp);
         }
-        if(i!=2 && i%2==0) continue;
-        bool zhi = is_zhi(i);
-        if(zhi){
-            cnt++;
-            for(int j=i*i;j<=n;j*=i){
-                cnt++;
-                visited[j] = 1;
+        vector<int> record;
+        for (int i = 0; i < n; i++) {
+            record.push_back(i);
+        }
+
+        int start = 0;
+        int cur_size;
+        int res;
+        for (int i = 0; i <= m; i++) {
+            if (i == m) {
+                i = 0;
             }
+            cur_size = record.size();
+            if (cur_size == 1) {
+                res = record[0];
+                break;
+            } else {
+                int steps = pos[i];
+                int del = steps % cur_size;
+//                if (del == 0) {
+//                    del = cur_size - 1;
+//                } else {
+//                    del--;
+//                }
+                start--;
+                for (int j = 0; j < del; j++) {
+                    start++;
+                    if (start == cur_size) {
+                        start = 0;
+                    }
+                }
+                record.erase(record.begin() + start);
+//                for(int item: record){
+//                    cout<<"list: "<<item << " ";
+//                }
+//                cout<<endl;
+            }
+
         }
+        cout << res << endl;
     }
-    cout<<cnt<<endl;
+
+
     return 0;
 
 }

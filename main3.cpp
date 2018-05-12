@@ -10,114 +10,84 @@
 using namespace std;
 typedef long long LL;
 
-bool is_odd(int n) {
-    return (n & 1) == 1 ? true : false;
-}
+struct Node{
+    char val;
+    vector<Node> next_v;
+    bool empty;
+}Node;
 
-int bit_num(LL n) {
-    int cnt = 0;
-    while (n > 0) {
-        n >>= 1;
-        cnt++;
-    }
-    return cnt;
-}
-
-int bit_huiwen(int n) {
-    int a = (n - 1) / 2;
-    int res = 2 << (a - 1);
-    return res;
-}
-
-
-LL bit_LL(string str, int n) {
-    LL ans = 0;
-    int j = n - 1;
-    for (int i = 0; i < n; i++) {
-        if (str[0] == '1') {
-            ans += (2 << j);
-            j--;
+void dfs(Node root,string& str, int cur,int len){
+    if(cur==len) return;
+    char cur_c = str[cur];
+    if(cur_c == root.val){
+        if(root.next_v.size() == 0 && cur< len-1){
+            Node new_node;
+            new_node.val = str[cur+1];
+            root.next_v.push_back(new_node);
+            dfs(new_node,str,cur+1,len);
+        }else{
+            if(cur<len-1){
+                int cur_root_size = root.next_v.size();
+                bool found=false;
+                for(int i=0;i<cur_root_size;i++){
+                    if(root.next_v[i].val == str[cur+1]){
+                        found = true;
+                        dfs(root.next_v[i],str,cur+1,len);
+                        break;
+                    }
+                }
+                if(!found){
+                    Node new_node;
+                    new_node.val = str[cur+1];
+                    root.next_v.push_back(new_node);
+                    dfs(new_node,str,cur+1,len);
+                }
+            }
         }
     }
-    return ans;
 }
 
-vector<char> bit_str(LL n) {
-    vector<char> ans;
-    while (n > 0) {
-        if (n & 1 == 1) {
-            ans.push_back('1');
-        } else {
-            ans.push_back('0');
+bool dfs_find(Node root, string& str, int cur,int len){
+    if(cur<len){
+        if(root.val == str[cur] && root.next_v.size() == 0){
+            return true;
         }
-        n >>= 1;
-    }
-    return ans;
-}
 
-
-void bit_str2(LL n,vector<char>& ans) {
-
-    while (n > 0) {
-        if (n & 1 == 1) {
-            ans.push_back('1');
-        } else {
-            ans.push_back('0');
+        if(root.val == str[cur]){
+            for(int i=0;i<root.next_v.size();i++){
+                bool found = dfs_find(root.next_v[i], str,cur+1,len);
+                if(found==true){
+                    return true;
+                }
+            }
         }
-        n >>= 1;
+        return false;
     }
-}
 
-bool hui_wen(vector<char> &ans) {
-    int len = ans.size();
-    int mid = len / 2;
-    for (int i = 0, j = len - 1; i < j && i <= mid && j >= mid; i++, j--) {
-        if (ans[i] != ans[j]) {
-            return false;
-        }
-    }
-    return true;
 }
 
 int main() {
 
-    LL n;
-    cin >> n;
-    int cnt = 0;
-    if (n == 1 || n == 2) {
-        cnt = 2;
-    } else if (n == 3) {
-        cnt = 3;
-    } else {
-        cnt = 3;
-        int bit_nums = bit_num(n);
-        int b = bit_nums - 1;
-
-        for (int i = 3; i <= b; i++) {
-            int temp = bit_huiwen(i);
-            cnt += temp;
+    int n,m;
+    cin>>n>>m;
+    string tmp;
+    map<char,Node> ma;
+    for(int i=0;i<n;i++){
+        cin>>tmp;
+        if(ma.find(tmp[0])==ma.end()){
+            Node newroot;
+            newroot.val = tmp[0];
+            newroot.empty=false;
+        }else{
+            Node root = ma[tmp[0]];
+            dfs(root, tmp, 0,tmp.length());
         }
-
-        int temp_cnt = 0;
-        LL cur = 2 << (b-1);
-        while (n > cur) {
-            vector<char> cache;
-             bit_str2(n,cache);
-            int t = cache.size();
-            for(int i=0;i<cache.size();i++){
-                cout<<cache[i]<<endl;
-            }
-            if (hui_wen(cache)) {
-                temp_cnt += 1;
-            }
-            n--;
-        }
-        cnt += temp_cnt;
 
     }
-
-
-    cout << cnt << endl;
+    int res = 1;
+    for(int i=0;i<m;i++){
+        cin>>tmp;
+    }
 
     return 0;
 }
