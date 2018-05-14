@@ -17,3 +17,6 @@ add_executable(main1 ${main1_FILES})
 
 set(main3_FILES main3.cpp)
 add_executable(main3 ${main3_FILES})
+
+set(dp_tan_chi_snake_SRCS dp_tan_chi_snake.cpp)
+add_executable(dp_tan_chi_snake_main ${dp_tan_chi_snake_SRCS})
