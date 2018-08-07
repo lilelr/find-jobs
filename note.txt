@@ -123,3 +123,9 @@ int main() {
     return 0;
 
 }
+
+
+2
+vector<char> 转string
+ res.resize(ans.size());
+    res.assign(ans.begin(), ans.end());

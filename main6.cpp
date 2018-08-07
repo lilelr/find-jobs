@@ -1,4 +1,3 @@
-
 #include <string>
 #include <iostream>
 #include <vector>
@@ -6,17 +5,13 @@
 #include <queue>
 #include <map>
 #include <algorithm>
-#include <cstring>
-
+#include <unordered_set>
+#include <unordered_map>
 using namespace std;
-#define M(a, b) memset(a,b,sizeof(a))
-const int MAXN = 305;
-typedef long long LL;
-
-
-
 
 
 int main() {
+
+    return 0;
 
 }

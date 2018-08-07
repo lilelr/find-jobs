@@ -1,0 +1,14 @@
+//
+// Created by YuXiao on 8/1/18.
+//
+
+#ifndef FIND_JOBS_ALGORITHMS_TWO_SHORTEST_POINTS_H
+#define FIND_JOBS_ALGORITHMS_TWO_SHORTEST_POINTS_H
+
+
+class two_shortest_points {
+
+};
+
+
+#endif //FIND_JOBS_ALGORITHMS_TWO_SHORTEST_POINTS_H

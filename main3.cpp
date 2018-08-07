@@ -6,88 +6,105 @@
 #include <queue>
 #include <map>
 #include <algorithm>
+#include <unordered_map>
+#include <cstring>
+#include <sstream>
 
 using namespace std;
 typedef long long LL;
 
-struct Node{
-    char val;
-    vector<Node> next_v;
-    bool empty;
-}Node;
-
-void dfs(Node root,string& str, int cur,int len){
-    if(cur==len) return;
-    char cur_c = str[cur];
-    if(cur_c == root.val){
-        if(root.next_v.size() == 0 && cur< len-1){
-            Node new_node;
-            new_node.val = str[cur+1];
-            root.next_v.push_back(new_node);
-            dfs(new_node,str,cur+1,len);
-        }else{
-            if(cur<len-1){
-                int cur_root_size = root.next_v.size();
-                bool found=false;
-                for(int i=0;i<cur_root_size;i++){
-                    if(root.next_v[i].val == str[cur+1]){
-                        found = true;
-                        dfs(root.next_v[i],str,cur+1,len);
-                        break;
-                    }
-                }
-                if(!found){
-                    Node new_node;
-                    new_node.val = str[cur+1];
-                    root.next_v.push_back(new_node);
-                    dfs(new_node,str,cur+1,len);
-                }
-            }
-        }
-    }
+int convertFromString(const string &s) {
+    istringstream i(s);
+    int x;
+    i >> x;
+    return x;
 }
 
-bool dfs_find(Node root, string& str, int cur,int len){
-    if(cur<len){
-        if(root.val == str[cur] && root.next_v.size() == 0){
-            return true;
-        }
+void SplitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
+{
+    std::string::size_type pos1, pos2;
+    pos2 = s.find(c);
+    pos1 = 0;
+    while(std::string::npos != pos2)
+    {
+        v.push_back(s.substr(pos1, pos2-pos1));
 
-        if(root.val == str[cur]){
-            for(int i=0;i<root.next_v.size();i++){
-                bool found = dfs_find(root.next_v[i], str,cur+1,len);
-                if(found==true){
-                    return true;
-                }
-            }
-        }
-        return false;
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
     }
-
+    if(pos1 != s.length())
+        v.push_back(s.substr(pos1));
 }
 
+vector<string> split(const string &str, const string &delim) {
+    vector<string> res;
+    if ("" == str) return res;
+    //先将要切割的字符串从string类型转换为char*类型
+    char *strs = new char[str.length() + 1]; //不要忘了
+    strcpy(strs, str.c_str());
+
+    char *d = new char[delim.length() + 1];
+    strcpy(d, delim.c_str());
+
+    char *p = strtok(strs, d);
+    while (p) {
+        string s = p; //分割得到的字符串转换为string类型
+        res.push_back(s); //存入结果数组
+        p = strtok(NULL, d);
+    }
+
+    return res;
+}
+
+const int maxn=102;
+#define M(a, b) memset(a,b,sizeof(a))
+
+int vis[maxn];
 int main() {
+    int n, ju;
+    cin >> n >> ju;
+    vector<vector<int>> grid(n, vector<int>());
+    string str;
+    getline(cin,str);
 
-    int n,m;
-    cin>>n>>m;
-    string tmp;
-    map<char,Node> ma;
+    for (int i = 0; i < n; i++) {
+        getline(cin,str);
+        vector<string> split_res = split(str, " ");
+        for (int j = 0; j < split_res.size(); j++) {
+            int temp = convertFromString(split_res[j]);
+            grid[i].push_back(temp);
+//            cout << temp << " ";
+        }
+//        cout << endl;
+    }
+    int ans=-1;
+    int mmax = -1;
     for(int i=0;i<n;i++){
-        cin>>tmp;
-        if(ma.find(tmp[0])==ma.end()){
-            Node newroot;
-            newroot.val = tmp[0];
-            newroot.empty=false;
-        }else{
-            Node root = ma[tmp[0]];
-            dfs(root, tmp, 0,tmp.length());
+        int cnt=0;
+        if(i!=ju && find(grid[i].begin(), grid[i].end(),ju)==grid[i].end()){
+            M(vis,0);
+            for(int j=0;j<grid[i].size();j++){
+               vis[grid[i][j]]++;
+            }
+
+            for(int k=0;k<grid[ju].size();k++){
+                if(vis[grid[ju][k]] ==1){
+                    cnt++;
+                }
+            }
+            if(cnt > mmax){
+                mmax = cnt;
+                ans  = i;
+            }
+
+
         }
 
     }
-    int res = 1;
-    for(int i=0;i<m;i++){
-        cin>>tmp;
-    }
+    cout<<ans<<endl;
 
     return 0;
+
+
 }
+
