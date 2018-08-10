@@ -1,87 +1,106 @@
-#include <string>
-#include <iostream>
-#include <vector>
-#include <cstdio>
-#include <queue>
-#include <map>
-#include <algorithm>
-#include <unordered_set>
-#include <unordered_map>
+#include <bits/stdc++.h>
 
 using namespace std;
-unordered_set<string> myset;
 
-string pair_left;
-string pair_right;
+struct Task
+{
+    int id;
+    int pm;
+    int time;
+    int pri;
+    int dur;
+};
 
-bool legal(string str) {
-    int len = str.length();
-    if (len == 0) return false;
-    if (str[0] == '0' && len >= 2 && str[1] != '.') return false;
-    if (str[0] == '.' || str[len - 1] == '.') return false;
-    if (str.find('.') != string::npos && str[len - 1] == '0') return false;
-//    cout<<"legal： "<<str<<endl;
-    return true;
-}
-
-vector<string> add_point(string str) {
-    int len = str.length();
-    string temp;
-    vector<string> res;
-    if (legal(str)) {
-        res.push_back(str);
+vector<vector<Task>> pmtasks;
+map<int, int> result;
+int proid = 1;
+struct Programer
+{
+    Programer()
+    {
+        t = 0;
+        this->id = proid++;
     }
-    string backup=str;
-    for (int i = 1; i < len; i++) {
-        temp = str.insert(i, ".");
-//        cout <<"temp: "<< temp << endl;
-        if (legal(temp)) {
-            res.push_back(temp);
-        }
-        str = backup;
-//        if(a==1){
-//            pair_left = temp;
-//        }else{
-//            pair_right = temp;
-//        }
-    }
-    return res;
-}
-
-int main() {
-    string str;
-    cin >> str;
-    int len = str.length();
-    string bakup = str;
-    for (int i = 1; i < len; i++) {
-        string left = str.substr(0, i);
-        string right = str.substr(i);
-//        cout<<left<<endl;
-//        cout<<right<<endl;
-        vector<string> left_pairV = add_point(left);
-        vector<string> right_pairV = add_point(right);
-
-        int left_len = left_pairV.size();
-        int right_len = right_pairV.size();
-        for (int j = 0; j < left_len; j++) {
-            string cur_left = left_pairV[j];
-            for (int k = 0; k < right_len; k++) {
-                string cur_right = right_pairV[k];
-
-                string cur_pair1 = cur_left+"#"+cur_right;
-                string cur_pair2 = cur_right+"#"+cur_left;
-
-                if (myset.find(cur_pair1) == myset.end() && myset.find(cur_pair2) == myset.end()) {
-                    myset.insert(cur_pair1);
+    int t;//当前的时间
+    int id;
+    int doTask()
+    {
+        vector<Task>::iterator findT;
+        int index = -1;
+        for (size_t i = 0; i < pmtasks.size(); i++)
+        {
+            auto& tasks = pmtasks.at(i);
+            if (tasks.size() == 0) continue;
+            auto it = tasks.begin();
+            while (it!= tasks.end() && it->time > t)
+                it++;
+            if (it == tasks.end()) continue;
+            if (index == -1)
+            {
+                findT = it;
+                index = i;
+            }
+            else
+            {
+                if (it->dur < findT->dur)
+                {
+                    findT = it;
+                    index = i;
                 }
-
             }
         }
-
+        if (index != -1)
+        {
+            t += findT->dur;
+            result[findT->id] = t;
+            pmtasks.at(index).erase(findT);
+            return 1;
+        }
+        else
+            t++;
+        return 0;
     }
-    int ans = myset.size();
-    cout << ans << endl;
+};
 
+int main()
+{
+    int n, m, p;
+    cin >> n >> m >> p;
+    pmtasks.resize(n);
+    for (size_t i = 0; i < p; i++)
+    {
+        Task task;
+        cin >> task.pm >> task.time >> task.pri >> task.dur;
+        task.id = i;
+        pmtasks.at(task.pm - 1).push_back(task);
+    }
+    for (size_t i = 0; i < pmtasks.size(); i++)
+    {
+        auto& tasks = pmtasks.at(i);
+        if (tasks.size() == 0) continue;
+        sort(tasks.begin(), tasks.end(), [](Task & t1, Task & t2)
+        {
+            if (t1.pri == t2.pri)
+            {
+                if (t1.dur == t2.dur)
+                {
+                    return t1.time < t2.time;
+                }
+                else return t1.dur < t2.dur;
+            }
+            else return t1.pri > t2.pri;
+        });
+    }
+    vector<Programer> pros(m);
+    while (p > 0)
+    {
+        sort(pros.begin(), pros.end(), [&](Programer & t1, Programer & t2)
+        {
+            return t1.t < t2.t;
+        });
+        p -= pros.begin()->doTask();
+    }
+    for (auto &it : result)
+        cout << it.second << endl;
     return 0;
-
 }

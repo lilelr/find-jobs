@@ -143,7 +143,7 @@ int select_task(vector<Manager> &pms, Task &picked_task) {
     if (m_pq.empty()) {
         return 0;
     }
-     picked_task = m_pq.top();
+    picked_task = m_pq.top();
     m_pq.pop();
 //    printf("%d")
 
