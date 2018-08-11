@@ -1,0 +1,6 @@
+set(tou_tiao_product_manager_programmer_SRC tou_tiao_product_manager_programmer.cpp)
+add_executable(tou_tiao_product_manager_programmer ${tou_tiao_product_manager_programmer_SRC})
+
+
+set(tou_tiao_product_manager_programmer_point_SRC tou_tiao_product_manager_programmer_point.cpp)
+add_executable(tou_tiao_product_manager_programmer_point ${tou_tiao_product_manager_programmer_point_SRC})

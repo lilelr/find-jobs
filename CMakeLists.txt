@@ -9,6 +9,8 @@ add_subdirectory(bit)
 add_subdirectory(zhao_shang_test)
 add_subdirectory(ali)
 add_subdirectory(bfs)
+add_subdirectory(task_schedule)
+
 set(SOURCE_FILES main.cpp)
 add_executable(main ${SOURCE_FILES})
 
